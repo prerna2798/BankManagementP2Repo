@@ -1,0 +1,25 @@
+table {
+  border-collapse: collapse;
+  margin: 100px auto;
+}
+
+td {
+  border: 0;
+}
+
+.table-responsive {
+  border: 2px solid black;
+  padding: 50px 60px 60px 60px;
+  border-radius: 40px;
+  border-color: indigo;
+  background-image: linear-gradient(to right, #f1f4f8, #f1f4f8)
+}
+
+#title{
+  font-size: 30px;
+  color: indigo
+}
+
+
+
+

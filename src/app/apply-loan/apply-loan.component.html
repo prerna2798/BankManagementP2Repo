@@ -1,0 +1,194 @@
+<div class="center">
+  <div class="col-xs-8">
+
+    <form class="form-group" #form="ngForm" (ngSubmit)="onClickSubmit(form.valid)">
+      <p>Apply Loan</p>
+      <br />
+      <div class="form-group">
+
+        <label>Loan Type:</label>
+        <select name="loanType" [(ngModel)]="userLoan.loanType" required class="form-control" #loanType="ngModel">
+          <option disabled>Select Type</option>
+          <option value="personal">Personal</option>
+          <option value="housing">Housing</option>
+          <option value="educational">Educational</option>
+        </select>
+        <small *ngIf="!(loanType.valid || (loanType.pristine && !form.submitted))" class="text-danger">
+          Please choose a Loan Type
+        </small>
+        <br />
+      </div>
+
+      <div class="form-group">
+        <label>Loan Amount:</label>
+        <input type="text" name="loanAmount" class="form-control" #loanAmount="ngModel" required [(ngModel)]="userLoan.loanAmount" pattern="^[1-9][0-9]{5,}">
+        <small *ngIf="!(loanAmount.valid || (loanAmount.pristine && !form.submitted))" class="text-danger">
+          Please specify Loan Amount of minimum 1,00,000 or more.
+        </small>
+        <br />
+      </div>
+
+      <div class="form-group">
+        <label>Loan Apply date:</label>
+        <input name="applyDate" type="date" class="form-control" [min]="minDate" #applyDate="ngModel" required [(ngModel)]="userLoan.applyDate" />
+        <small *ngIf="!(applyDate.valid || (applyDate.pristine && !form.submitted))" class="text-danger">
+          Please select Loan Apply Date.
+        </small>
+        <br />
+      </div>
+
+      <div class="form-group">
+        <label>Rate of Interest:</label>
+        <input type="number" name="rateOfInterest" value={{calculateInterestRate()}} [(ngModel)]="userLoan.rateOfInterest" class="form-control" required #rateOfInterest="ngModel" readonly>
+        <br />
+      </div>
+
+      <div class="form-group">
+        <label>Duration Of the Loan(Years):</label>
+        <select name="loanDuration" class="form-control" required #loanDuration="ngModel" [(ngModel)]="userLoan.loanDuration">
+          <option disabled>Select Duration</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+        </select>
+        <small *ngIf="!(loanDuration.valid || (loanDuration.pristine && !form.submitted))" class="text-danger">
+          Please select Loan Duration.
+        </small>
+        <br />
+      </div>
+
+      <div class="form-group">
+        <ng-container *ngIf="loanType.value=='educational'" class="form-control">
+          <div>
+            <label>Course fee:</label>
+            <input type="text" name="courseFee" class="form-control" #courseFee="ngModel" pattern="^[1-9][0-9]{5,}" required [(ngModel)]="userLoan.courseFee">
+            <small *ngIf="!(courseFee.valid || (courseFee.pristine && !form.submitted))" class="text-danger">
+              Please specify Course Fee of minimum amount 1,00,000 or more.
+            </small>
+            <br />
+          </div>
+
+          <div>
+            <label>Course:</label>
+            <select name="courseName" class="form-control" #courseName="ngModel" required [(ngModel)]="userLoan.courseName">
+              <option disabled>Course Name</option>
+              <option value="be">B.E</option>
+              <option value="btech">B.Tech</option>
+            </select>
+            <small *ngIf="!(courseName.valid || (courseName.pristine && !form.submitted))" class="text-danger">
+              Please select Course Name
+            </small>
+            <br />
+          </div>
+
+          <div>
+            <label>Father name:</label>
+            <input type="text" name="fatherName" class="form-control" #fatherName="ngModel" required [(ngModel)]="userLoan.fatherName" pattern="[A-Za-z ]{3,}">
+            <small *ngIf="!(fatherName.valid || (fatherName.pristine && !form.submitted))" class="text-danger">
+              Please enter Father's Name.
+            </small>
+            <br />
+          </div>
+
+          <div>
+            <label>Father Occupation:</label>
+            <input type="text" name="fatherOcc" class="form-control" #fatherOcc="ngModel" required [(ngModel)]="userLoan.fatherOcc" pattern="[A-Za-z ]{3,}">
+            <small *ngIf="!(fatherOcc.valid || (fatherOcc.pristine && !form.submitted))" class="text-danger">
+              Please enter Father's Occupation.
+            </small>
+            <br />
+          </div>
+
+          <div>
+            <label>Father's total experience:</label>
+            <input type="number" name="fatherExp" class="form-control" min="1" #fatherExp="ngModel" required [(ngModel)]="userLoan.fatherExp">
+            <small *ngIf="!(fatherExp.valid || (fatherExp.pristine && !form.submitted))" class="text-danger">
+              Please enter Father's Experience in Years.
+            </small>
+            <br />
+          </div>
+
+          <div>
+            <label>Ration Card No.:</label>
+            <input type="text" name="rationCard" class="form-control" #rationCard="ngModel" required [(ngModel)]="userLoan.rationCard">
+            <small *ngIf="!(rationCard.valid || (rationCard.pristine && !form.submitted))" class="text-danger">
+              Please enter Ration Card Number
+            </small>
+            <br />
+          </div>
+
+          <div>
+            <label>Father's Annual Income:</label>
+            <input type="text" name="fatherInc" class="form-control" #fatherInc="ngModel" required [(ngModel)]="userLoan.fatherInc" pattern="[0-9]{3,}">
+            <small *ngIf="!(fatherInc.valid || (fatherInc.pristine && !form.submitted))" class="text-danger">
+              Please enter your Father's Annual Income.
+            </small>
+            <br />
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="form-group">
+        <ng-container *ngIf="loanType.value=='personal' || loanType.value=='housing'" class="form-control">
+          <div>
+            <label>Annual Income:</label>
+            <input type="text" name="annualIncome" required class="form-control" #annualIncome="ngModel" [(ngModel)]="userLoan.annualIncome" pattern="[0-9]{3,}">
+            <small *ngIf="!(annualIncome.valid || (annualIncome.pristine && !form.submitted))" class="text-danger">
+              Please enter your Annual Income.
+            </small>
+            <br />
+          </div>
+
+          <div>
+            <label>Company Name:</label>
+            <input type="text" name="companyName" required class="form-control" #companyName="ngModel" [(ngModel)]="userLoan.companyName" pattern="[a-zA-Z ]{3,}">
+            <small *ngIf="!(companyName.valid || (companyName.pristine && !form.submitted))" class="text-danger">
+              Please enter your Company Name.
+            </small>
+            <br />
+          </div>
+
+          <div>
+            <label>Designation:</label>
+            <input type="text" name="desig" class="form-control" #desig="ngModel" required [(ngModel)]="userLoan.desig" pattern="[a-zA-Z ]{3,}">
+            <small *ngIf="!(desig.valid || (desig.pristine && !form.submitted))" class="text-danger">
+              Please enter your Designation
+            </small>
+            <br />
+          </div>
+
+          <div>
+            <label>Total experience:</label>
+            <input type="number" name="totalExp" class="form-control" min="1" #totalExp="ngModel" required [(ngModel)]="userLoan.totalExp">
+            <small *ngIf="!(totalExp.valid || (totalExp.pristine && !form.submitted))" class="text-danger">
+              Please enter your Total Experience in Years.
+            </small>
+            <br />
+          </div>
+
+          <div>
+            <label>Experience with current company:</label>
+            <input type="number" name="currExp" class="form-control" min="1" #currExp="ngModel" required [(ngModel)]="userLoan.currExp">
+            <small *ngIf="!(currExp.valid || (currExp.pristine && !form.submitted))" class="text-danger">
+              Please enter your Experience in the Current Company in Years.
+            </small>
+            <br />
+          </div>
+
+        </ng-container>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Apply</button>
+      <div class="formDetails" hidden>
+        <div>Form details:-</div>
+        <pre>Is form valid?: <br>{{form.valid | json}}</pre>
+        <pre>Is form submitted?: <br>{{form.submitted | json}}</pre>
+        <pre>submitted value: <br>{{form.value | json}}</pre>
+        <pre></pre>
+      </div>
+    </form>
+
+  </div>
+</div>
+

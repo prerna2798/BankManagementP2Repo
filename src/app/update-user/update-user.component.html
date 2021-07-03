@@ -1,0 +1,238 @@
+<div class="center">
+  <div class="col-xs-8">
+    <form #f="ngForm" (ngSubmit)="save(f.valid)">
+      <p>Update Details</p>
+      <br />
+
+      <div class="form-group">
+        <label for="">User Id</label>
+        <input type="text" class="form-control" name="userid" [(ngModel)]="user.uId"
+               required #userid="ngModel" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="">Account Number</label>
+        <input type="text" class="form-control" name="accNum" [(ngModel)]="user.accountNumber" #accNum="ngModel" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="">Name</label>
+        <input type="text" class="form-control" name="username" [(ngModel)]="user.userName" pattern="[A-Za-z ]+"
+               required #username="ngModel">
+        <small [hidden]="username.valid || (username.pristine && !f.submitted)" class="text-danger">
+          Username is required and should contain only alphabets and space.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="">Email</label>
+        <input type="email" class="form-control" name="email" [(ngModel)]="user.email"
+               required pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" #email="ngModel">
+        <small [hidden]="email.valid || (email.pristine && !f.submitted)" class="text-danger">
+          Email is required and format should be <i>john@doe.com</i>.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="">Guardian Type</label>
+        <select class="custom-select" required name="guardiantype" [(ngModel)]="user.guardianType" #guardiantype="ngModel">
+          <option *ngFor="let gType of guardianTypes" value="{{gType}}">{{gType}}</option>
+        </select>
+        <small [hidden]="guardiantype.valid || (guardiantype.pristine && !f.submitted)" class="text-danger">
+          Please select Guardian Type
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="">Guardian Name</label>
+        <input type="text" class="form-control" name="guardianname" required pattern="[A-Za-z ]+" [(ngModel)]="user.guardianName" #guardianname="ngModel">
+        <small [hidden]="guardianname.valid || (guardianname.pristine && !f.submitted)" class="text-danger">
+          Guardian name is required and should contain only alphabets and space.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="">Address</label>
+        <textarea class="form-control" name="address" required [(ngModel)]="user.address" #address="ngModel">
+        </textarea>
+        <small [hidden]="address.valid || (address.pristine && !f.submitted)" class="text-danger">
+          Address is required
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="">Citizenship</label>
+        <select class="custom-select" required name="citizenship" [(ngModel)]="user.citizenship" #citizenship="ngModel">
+          <option *ngFor="let citizen of citizenshipTypes" value="{{citizen}}">{{citizen}}</option>
+        </select>
+        <small [hidden]="citizenship.valid || (citizenship.pristine && !f.submitted)" class="text-danger">
+          Please select Citizenship Type
+        </small>
+      </div>
+
+      <div class="mb-3">
+        <label for="">Gender</label>
+        <div class="form-check">
+          <input class="form-check-input" required [(ngModel)]="user.gender" type="radio" value="male" name="gender" #gender="ngModel" />
+          Male
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" required [(ngModel)]="user.gender" type="radio" value="female" name="gender" #gender="ngModel" />
+          Female
+        </div>
+        <small [hidden]="gender.valid || (gender.pristine && !f.submitted)" class="text-danger">
+          Please select gender
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="">Marital Status</label>
+        <select class="custom-select" required name="maritalstatus" [(ngModel)]="user.maritalStatus" #maritalstatus="ngModel">
+          <option *ngFor="let status of maritalStat" value="{{status}}">{{status}}</option>
+        </select>
+        <small [hidden]="maritalstatus.valid || (maritalstatus.pristine && !f.submitted)" class="text-danger">
+          Please select Marital Status
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="">Contact</label>
+        <input type="text" class="form-control" name="contact" [(ngModel)]="user.contact"
+               required pattern="[1-9]{1}[0-9]{9}" #contact="ngModel">
+        <small [hidden]="contact.valid || (contact.pristine && !f.submitted)" class="text-danger">
+          Please enter your 10 digit contact number.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="">Date of Birth</label>
+        <input type="date" class="form-control" name="dob" [(ngModel)]="user.dob"
+               required #dob="ngModel" value="none" [max]="maxDate">
+        <small [hidden]="dob.valid || (dob.pristine && !f.submitted)" class="text-danger">
+          Please enter your Date of Birth.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="">Age</label>
+        <input type="number" class="form-control" name="age" [(ngModel)]="user.age" #age="ngModel"
+               value="{{ageCalculator()}}" readonly required>
+      </div>
+
+      <div class="form-group">
+        <label for="">Citizen Status</label>
+        <input type="text" class="form-control" name="citizenstatus" [(ngModel)]="user.citizenStatus" #citizenstatus="ngModel"
+               value="{{statusCalculator()}}" readonly required>
+      </div>
+
+      <div class="form-group">
+        <label for="">Country</label>
+        <select class="form-control" required name="country" [(ngModel)]="user.country"
+                (change)="onSelect($event.target.value)" #country="ngModel">
+          <option disabled>--Select--</option>
+          <option *ngFor="let country of countries" value={{country.name}}>{{country.name}}</option>
+        </select>
+        <small [hidden]="country.valid || (country.pristine && !f.submitted)" class="text-danger">
+          Please select Country
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="">State</label>
+        <select class="form-control" required name="state" [(ngModel)]="user.state" #state="ngModel">
+          <option disabled>--Select--</option>
+          <option *ngFor="let s of states " value={{s.name}}>{{s.name}}</option>
+        </select>
+        <small [hidden]="state.valid || (state.pristine && !f.submitted)" class="text-danger">
+          Please select State
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="">Account Type</label>
+        <select class="form-control" required name="accounttype" [(ngModel)]="user.accountType" #accounttype="ngModel" value="none">
+          <option disabled>--Select--</option>
+          <option>Savings</option>
+          <option>Salary</option>
+        </select>
+        <small [hidden]="accounttype.valid || (accounttype.pristine && !f.submitted)" class="text-danger">
+          Please select Account type
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="">Branch Name</label>
+        <input type="text" class="form-control" name="branchname" required pattern="[A-Za-z ]+" [(ngModel)]="user.branchName" #branchname="ngModel">
+        <small [hidden]="branchname.valid || (branchname.pristine && !f.submitted)" class="text-danger">
+          Branch name is required and should contain only alphabets and space.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="">Initial Deposit Amount</label>
+        <input type="number" class="form-control" name="initdeposit" [(ngModel)]="user.initDeposit" #initdeposit="ngModel"
+               value="{{initialDeposit()}}" readonly required>
+      </div>
+
+      <div class="form-group">
+        <label for="">Identity Proof Type</label>
+        <select class="form-control" required name="identityproof" [(ngModel)]="user.identityProof" #identityproof="ngModel" value="none">
+          <option disabled>--Select--</option>
+          <option>Aadhaar</option>
+          <option>PAN</option>
+        </select>
+        <small [hidden]="identityproof.valid || (identityproof.pristine && !f.submitted)" class="text-danger">
+          Please select Account type
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="">Identity Proof Document Number</label>
+        <input type="text" class="form-control" name="pan" [(ngModel)]="user.pan"
+               required pattern="[A-Za-z1-9]{12}" #pan="ngModel">
+        <small [hidden]="pan.valid || (pan.pristine && !f.submitted)" class="text-danger">
+          Please enter your 12 digit {{user.identityProof}} Number( Only Alphabets and Digits are allowed).
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="">Reference Account Holder Name</label>
+        <input type="text" class="form-control" name="refname" required pattern="[A-Za-z ]+" [(ngModel)]="user.refName" #refname="ngModel">
+        <small [hidden]="refname.valid || (refname.pristine && !f.submitted)" class="text-danger">
+          Reference Account Holder Name is required and should contain only alphabets and space.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="">Reference Account Number</label>
+        <input type="text" class="form-control" name="refacc" [(ngModel)]="user.refAccountNo"
+               required pattern="[0-9]{16}" #refacc="ngModel">
+        <small [hidden]="refacc.valid || (refacc.pristine && !f.submitted)" class="text-danger">
+          Please enter the 16 digit Account Number.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="">Reference Address</label>
+        <textarea class="form-control" name="refaddress" required [(ngModel)]="user.refAddress" #refaddress="ngModel">
+        </textarea>
+        <small [hidden]="refaddress.valid || (refaddress.pristine && !f.submitted)" class="text-danger">
+          Address is required
+        </small>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Submit</button><br />
+      <small class="text-danger">{{invalidMessage}}</small>
+
+      <div class="formDetails" hidden>
+        <div>Form details:-</div>
+        <pre>Is form valid?: <br>{{f.valid | json}}</pre>
+        <pre>Is form submitted?: <br>{{f.submitted | json}}</pre>
+        <pre>submitted value: <br>{{f.value | json}}</pre>
+        <pre></pre>
+      </div>
+
+    </form>
+  </div>
+</div>
+

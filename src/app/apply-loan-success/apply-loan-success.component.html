@@ -1,0 +1,48 @@
+<div id='card' class="animated fadeIn">
+  <div id='upper-side'>
+    <i class="fa fa-check"></i>
+    <h3 id='status'> Success </h3>
+  </div>
+  <div id='lower-side'>
+      Congratulations, your Loan Application has been successfully submitted.
+      <br />
+      Below are the details of your Loan Application Request.<br /><br />
+      <table>
+        <tr>
+          <td>User Id:</td>
+          <td>{{ user.uId }}</td>
+        </tr>
+        <tr>
+          <td>Name: </td>
+          <td>{{ user.userName }}</td>
+        </tr>
+        <tr>
+          <td>AccountNumber</td>
+          <td>{{ user.accountNumber }}</td>
+        </tr>
+        <tr>
+          <td>Initial Deposit</td>
+          <td>{{ user.initDeposit }}</td>
+        </tr>
+        <tr>
+          <td>Loan Type</td>
+          <td>{{ userLoan.loanType }}</td>
+        </tr>
+        <tr>
+          <td>Loan Amount</td>
+          <td>{{ userLoan.loanAmount }}</td>
+        </tr>
+        <tr>
+          <td>Interest Rate</td>
+          <td>{{ userLoan.rateOfInterest }}</td>
+        </tr>
+        <tr>
+          <td>Loan Duration(Years)</td>
+          <td>{{ userLoan.loanDuration }}</td>
+        </tr>
+      </table>
+    <br />
+    <button id='contBtn' (click)='onContinue()'>Continue</button>
+  </div>
+</div>
+

@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\home",
+    "\\src\\app\\nav-menu",
+    "\\src\\app\\profile",
+    "\\src\\app\\register",
+    "\\src\\app\\services",
+    "\\src\\app\\update-user",
+    "\\src\\environments"
+  ],
+  "SelectedNode": "\\src\\app\\nav-menu\\nav-menu.component.ts",
+  "PreviewInSolutionExplorer": false
+}

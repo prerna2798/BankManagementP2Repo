@@ -1,0 +1,22 @@
+form {
+  border: 2px solid black;
+  padding: 50px 60px 60px 60px;
+  border-radius: 40px;
+  border-color:indigo;
+}
+
+.center {
+  margin: auto;
+  width: 60%;
+}
+
+label:after {
+  content: " *";
+  color: red;
+}
+
+p {
+    font-size:30px;
+    color:indigo
+}
+

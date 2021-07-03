@@ -1,0 +1,37 @@
+<header>
+  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="navbar-brand nav-link" (click)="Profile()">
+            Bank Management
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" (click)="View()" *ngIf="checkLogin()">
+            View
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" (click)="Update()" *ngIf="checkLogin()">
+            Update
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" (click)="Loan()" *ngIf="checkLogin()">
+            Apply Loan
+          </a>
+        </li>
+      </ul>
+      <div>
+        <ul class="navbar-nav flex-grow">
+          <li class="nav-item">
+            <a class="nav-link text-dark" (click)="LogOut()" *ngIf="checkLogin()">
+              <b>Logout</b>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
